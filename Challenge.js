@@ -1,33 +1,52 @@
-var dna = []; //Contiene los strings de las secuencias de ADN
+function isMutant(dna){
+  var cant_cadena_mutante = 0;
 
+  function secuencia_igual(secuencia) {
+    //A partir de un string, devuelve "true" si hay 4 letras iguales y consecutivas 
+    // "AAAAGT" -> true, "AAAGAT" -> false, "AAA" -> false
+    
+    var letras = secuencia.split("");
+    var cuatro_iguales = false;
 
-function secuencia_igual(secuencia) { //Devuelve true si hay 4 letras iguales en el string Por ej.: "AAAACG"
-  var letras = secuencia.split("");
-  var cuatro_iguales = false;
+    function comparar_son_iguales(a, b, c, d) { 
+      if (a === b && b === c && c === d) {
+        cuatro_iguales = true;
+      }
+    }
 
-  function comparar_son_iguales(a, b, c, d) { 
-    if (a === b && b === c && c === d) {
-      cuatro_iguales = true;
+    if (letras.length > 3) {
+      for (i = 0; i < letras.length - 4; i++) {
+        comparar_son_iguales(letras[i], letras[i + 1], letras[i + 2], letras[i + 3]);
+        if (cuatro_iguales === true) {
+          break; 
+        } 
+      } 
+    }
+    
+    return cuatro_iguales;
+  }
+
+  //Análisis "Horizontal" de la Secuencia
+  for (j = 0; j < dna.length; j++) { 
+    if (cant_cadena_mutante >= 2) {
+      break;
+    }
+    if (secuencia_igual(dna[j]) === true) {
+      cant_cadena_mutante += 1;
     }
   }
 
-  if (letras.length > 3) {
-    for (i = 0; i < letras.length - 4; i++) {
-      comparar_son_iguales(letras[i], letras[i + 1], letras[i + 2], letras[i + 3]);
-      if (cuatro_iguales === true) {
-        break; 
-      } 
-    } 
+ 
+
+
+  //Resultado
+  if (cant_cadena_mutante >= 2) {
+    return true;
   }
-  
-  return cuatro_iguales;
+  else { 
+    return false;
+  }
 }
-
-
-
-
-
-
 
 
 
