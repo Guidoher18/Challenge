@@ -1,14 +1,14 @@
-function isMutant(dna){
+function isMutant(dna) {
   var cant_cadena_mutante = 0;
 
   function secuencia_igual(secuencia) {
-    //A partir de un string, devuelve "true" si hay 4 letras iguales y consecutivas 
+    //A partir de un string, devuelve "true" si hay 4 letras iguales y consecutivas
     // "AAAAGT" -> true, "AAAGAT" -> false, "AAA" -> false
-    
+
     var letras = secuencia.split("");
     var cuatro_iguales = false;
 
-    function comparar_son_iguales(a, b, c, d) { 
+    function comparar_son_iguales(a, b, c, d) {
       if (a === b && b === c && c === d) {
         cuatro_iguales = true;
       }
@@ -16,39 +16,73 @@ function isMutant(dna){
 
     if (letras.length > 3) {
       for (i = 0; i < letras.length - 4; i++) {
-        comparar_son_iguales(letras[i], letras[i + 1], letras[i + 2], letras[i + 3]);
+        comparar_son_iguales(
+          letras[i],
+          letras[i + 1],
+          letras[i + 2],
+          letras[i + 3]
+        );
         if (cuatro_iguales === true) {
-          break; 
-        } 
-      } 
+          break;
+        }
+      }
     }
-    
+
     return cuatro_iguales;
   }
 
   //Análisis "Horizontal" de la Secuencia
-  for (j = 0; j < dna.length; j++) { 
-    if (cant_cadena_mutante >= 2) {
-      break;
-    }
-    if (secuencia_igual(dna[j]) === true) {
-      cant_cadena_mutante += 1;
+  function analisisHorizontal(dna) {
+    for (j = 0; j < dna.length; j++) {
+      if (cant_cadena_mutante >= 2) {
+        break;
+      }
+      if (secuencia_igual(dna[j]) === true) {
+        cant_cadena_mutante += 1;
+      }
     }
   }
 
- 
+  analisisHorizontal(dna);
+
+  //Análisis "Vertical" de la Secuencia
+  function generar_dna_vertical(dna) {
+    var z = [];
+    var w = [];
+    var nueva_cadena_array = [];
+    var dna_vertical = "";
+    var array_verticales = [];
+
+    for (x of dna) {
+      w = x.split("");
+      z.push(w);
+    }
+
+    for (k = 0; k < z.length; k++) {
+      for (l = 0; l < z.length; l++) {
+        nueva_cadena_array.push(z[l][k]);
+      }
+      for (m of nueva_cadena_array) {
+        dna_vertical = dna_vertical + m;
+      }
+      array_verticales.push(dna_vertical);
+      dna_vertical = "";
+      nueva_cadena_array = [];
+    }
+
+    return array_verticales;
+  }
+
+  analisisHorizontal(generar_dna_vertical(dna));
 
 
   //Resultado
   if (cant_cadena_mutante >= 2) {
     return true;
-  }
-  else { 
+  } else {
     return false;
   }
 }
-
-
 
 /*
 for (i = 0; i < letras.length - 4; i++) {
@@ -65,11 +99,6 @@ for (i = 0; i < letras.length - 4; i++) {
   }  
 }
 */
-
-
-
-
-
 
 /*function conteo_letra(secuencia) {
   //Cuenta cuántas veces aparece una letra en el string
@@ -115,5 +144,3 @@ for (i = 0; i < letras.length - 4; i++) {
     return true;
   }
 }*/
-
-
